@@ -145,13 +145,14 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\CAL_EVAC\edges.txt" />
-    <Text Include="..\..\CAL_EVAC\graph.txt" />
-    <Text Include="..\..\CAL_EVAC\vertices.txt" />
+    <ClInclude Include="Graph.h" />
+    <ClInclude Include="Position.h" />
+    <ClInclude Include="Street.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\CAL_EVAC\Graph.h" />
-    <ClInclude Include="Position.h" />
+    <Text Include="edges.txt" />
+    <Text Include="graph.txt" />
+    <Text Include="vertices.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

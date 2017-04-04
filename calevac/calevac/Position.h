@@ -15,6 +15,12 @@ public:
 	double getLonDeg() {
 		return lon;
 	};
+	bool operator==(Position that) {
+		return this->getLatDeg() == that.getLatDeg() && this->getLonDeg() == that.getLonDeg();
+	}
+	bool operator!=(Position that) {
+		return this->getLatDeg() != that.getLatDeg() || this->getLonDeg() != that.getLonDeg();
+	}
 };
 
 Position::Position(double latitude, double longitude)

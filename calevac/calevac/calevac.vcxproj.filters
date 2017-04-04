@@ -20,22 +20,25 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\CAL_EVAC\edges.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="..\..\CAL_EVAC\graph.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="..\..\CAL_EVAC\vertices.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\CAL_EVAC\Graph.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Position.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Street.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="edges.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="graph.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="vertices.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
