@@ -21,6 +21,10 @@ public:
 	bool operator!=(Position that) {
 		return this->getLatDeg() != that.getLatDeg() || this->getLonDeg() != that.getLonDeg();
 	}
+	double getDist(Position that) {
+		return 100000*sqrt(pow((this->getLatDeg() - that.getLatDeg()), 2) + pow((this->getLonDeg() - that.getLonDeg()), 2));
+		//return sqrt(pow(6371000 * sin((3.1415926 * this->getLatDeg() - that.getLatDeg()) / 180), 2) + pow(6371000 * sin((3.1415926 * this->getLatDeg() - that.getLatDeg()) / 180), 2));
+	}
 };
 
 Position::Position(double latitude, double longitude)

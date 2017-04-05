@@ -12,7 +12,7 @@ using namespace std;
 
 int main() {
 	map<int, Position> positions;
-	long long min=0, max;
+	double minx= numeric_limits<double>::max(), miny = numeric_limits<double>::max(), maxx = -numeric_limits<double>::max(), maxy = -numeric_limits<double>::max();
 	long long id;
 	double lat, lon;
 	Position *pos;
@@ -30,11 +30,21 @@ int main() {
 			section.erase(section.begin() + section.find(';'), section.end());
 			lon = stod(section);
 
+			if (lon < minx)
+				minx = lon;
+			if (lon > maxx)
+				maxx = lon;
+
 			section = line;
 			section.erase(section.begin(), section.begin() + section.find(';') + 1);
 			section.erase(section.begin(), section.begin() + section.find(';') + 1);
 			section.erase(section.begin() + section.find(';'), section.end());
 			lat = stod(section);
+
+			if (lat < miny)
+				miny = lat;
+			if (lat > maxy)
+				maxy = lat;
 
 			pos = new Position(lon, lat);
 			positions.insert(pair<int, Position>(id, *pos));
@@ -47,6 +57,8 @@ int main() {
 	else
 		cout << "Unable to open vertex file";
 
+	cout << minx << '\t' << maxx << '\t' << miny << '\t' << maxy << endl;
+	cin.get();
 	cout << "over" << endl;
 	map<int, Street> streets;
 	string name;
@@ -109,7 +121,9 @@ int main() {
 			e = new Edge<Position>(v2, 1, streets[id].getName(), streets[id].isTwoWay());*/
 			g.addVertex(positions[idv1]);
 			g.addVertex(positions[idv2]);
-			g.addEdge(positions[idv1], positions[idv2], 1);
+			g.addEdge(positions[idv1], positions[idv2], positions[idv1].getDist(positions[idv2]));
+			if(streets[id].isTwoWay())
+				g.addEdge(positions[idv2], positions[idv1], positions[idv1].getDist(positions[idv2]));
 			cout << 100.0 * id / 482568730 << " %" << endl;
 		}
 		g_file.close();
@@ -119,41 +133,12 @@ int main() {
 
 	cout << "over" << endl;
 
-	vector<Position> path = g.getfloydWarshallPath(positions[299613430], positions[4486815108]);
-
-	for (size_t i = 0; i < path.size(); i++)
+	for (size_t i = 0; i < g.getVertexSet().size(); i++)
 	{
-		cout << path[i].getLatDeg() << '\t' << path[i].getLonDeg() << endl;
+		if (g.getVertexSet()[i]->getIndegree() >= 2)
+			cout << g.getVertexSet()[i]->getIndegree() << endl;
 	}
 
-	cout << "found" << endl << endl;
-
-	path = g.getfloydWarshallPath(positions[1110698297], positions[2202026243]);
-
-	for (size_t i = 0; i < path.size(); i++)
-	{
-		cout << path[i].getLatDeg() << '\t' << path[i].getLonDeg() << endl;
-	}
-
-	cout << "found" << endl << endl;
-
-	path = g.getfloydWarshallPath(positions[3570147077], positions[404770462]);
-
-	for (size_t i = 0; i < path.size(); i++)
-	{
-		cout << path[i].getLatDeg() << '\t' << path[i].getLonDeg() << endl;
-	}
-
-	cout << "found" << endl << endl;
-
-	path = g.getfloydWarshallPath(positions[4526688739], positions[4753741513]);
-
-	for (size_t i = 0; i < path.size(); i++)
-	{
-		cout << path[i].getLatDeg() << '\t' << path[i].getLonDeg() << endl;
-	}
-
-	cout << "found" << endl << endl;
-
+	
 	return 0;
 }
