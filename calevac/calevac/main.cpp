@@ -12,6 +12,7 @@ using namespace std;
 
 int main() {
 	map<int, Position> positions;
+	long long min=0, max;
 	long long id;
 	double lat, lon;
 	Position *pos;
