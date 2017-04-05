@@ -1,0 +1,27 @@
+﻿  main.cpp
+d:\temp\cal_evac\calevac\calevac\main.cpp(110): warning C4244: 'argument': conversion from '__int64' to 'const int', possible loss of data
+d:\temp\cal_evac\calevac\calevac\main.cpp(111): warning C4244: 'argument': conversion from '__int64' to 'const int', possible loss of data
+d:\temp\cal_evac\calevac\calevac\main.cpp(112): warning C4244: 'argument': conversion from '__int64' to 'const int', possible loss of data
+d:\temp\cal_evac\calevac\calevac\main.cpp(122): warning C4305: 'argument': truncation from '__int64' to 'int'
+d:\temp\cal_evac\calevac\calevac\main.cpp(122): warning C4309: 'argument': truncation of constant value
+d:\temp\cal_evac\calevac\calevac\main.cpp(149): warning C4305: 'argument': truncation from '__int64' to 'int'
+d:\temp\cal_evac\calevac\calevac\main.cpp(149): warning C4309: 'argument': truncation of constant value
+d:\temp\cal_evac\calevac\calevac\main.cpp(15): warning C4101: 'max': unreferenced local variable
+d:\temp\cal_evac\calevac\calevac\main.cpp(86): warning C4101: 'v2': unreferenced local variable
+d:\temp\cal_evac\calevac\calevac\main.cpp(87): warning C4101: 'e': unreferenced local variable
+d:\temp\cal_evac\calevac\calevac\main.cpp(86): warning C4101: 'v1': unreferenced local variable
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\utility(172): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+  d:\temp\cal_evac\calevac\calevac\main.cpp(40): note: see reference to function template instantiation 'std::pair<int,Position>::pair<__int64&,Position&,void,0>(_Other1,_Other2) noexcept' being compiled
+          with
+          [
+              _Other1=__int64 &,
+              _Other2=Position &
+          ]
+  d:\temp\cal_evac\calevac\calevac\main.cpp(40): note: see reference to function template instantiation 'std::pair<int,Position>::pair<__int64&,Position&,void,0>(_Other1,_Other2) noexcept' being compiled
+          with
+          [
+              _Other1=__int64 &,
+              _Other2=Position &
+          ]
+  calevac.vcxproj -> D:\Temp\CAL_EVAC\calevac\x64\Debug\calevac.exe
+  calevac.vcxproj -> D:\Temp\CAL_EVAC\calevac\x64\Debug\calevac.pdb (Full PDB)
