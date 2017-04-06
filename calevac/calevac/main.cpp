@@ -128,14 +128,19 @@ int main() {
 				g.addEdge(positions[idv2], positions[idv1], positions[idv1].getDist(positions[idv2]));
 
 			progressBarOld = progressBarNew;
-			progressBarNew = 100 * id / 482568730;
+			progressBarNew = 100 * id / 483715765;
 			if (progressBarNew != progressBarOld || progressBarOld == -1) {
 				system("cls");
-				cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n   \t\t\t\t\tPlease Wait...\n\t\t\t\t\t[";
-				for (int i = 0; i < progressBarNew/5; i++) {
+				cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n   \t\t\t\t\tPlease Wait";
+				for (int i = 1; i < progressBarNew % 4 + 1; i++)
+				{
+					cout << '.';
+				}
+				cout << "\n\t\t\t\t\t[";
+				for (int i = 0; i < progressBarNew / 5; i++) {
 					cout << char(178);
 				}
-				for (int i = progressBarNew/5; i < 20; i++) {
+				for (int i = progressBarNew / 5; i < 20; i++) {
 					cout << char(176);
 				}
 				cout << "] " << progressBarNew << "%\n";
@@ -148,10 +153,24 @@ int main() {
 
 	cout << "over" << endl;
 
+	ofstream vout("vout.txt");
+	vector<Vertex<Position> *> rejectedvertices;
+
+
 	for (size_t i = 0; i < g.getVertexSet().size(); i++)
 	{
-		if (g.getVertexSet()[i]->getIndegree() > 2)
-			cout << g.getVertexSet()[i]->getIndegree() << endl;
+		long long id;
+		Position posr(g.getVertexSet()[i]->getInfo().getLatDeg(), g.getVertexSet()[i]->getInfo().getLonDeg());
+		if (g.getVertexSet()[i]->getIndegree() > 1) {
+			for (auto &it : positions) {
+				if (new Position(g.getVertexSet()[i]->getInfo().getLatDeg(), g.getVertexSet()[i]->getInfo().getLonDeg()) == &(it.second)) {
+					id = it.first;
+				}
+			}
+			vout << id << ';' << positions[id].getLatDeg() << ';' << positions[id].getLonDeg() << ';' << endl;
+		}
+		else
+			g.removeVertex(posr);
 	}
 
 
