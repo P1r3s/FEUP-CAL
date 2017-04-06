@@ -11,8 +11,10 @@
 using namespace std;
 
 int main() {
+	int progressBarOld = -1;
+	int progressBarNew = -1;
 	map<int, Position> positions;
-	double minx= numeric_limits<double>::max(), miny = numeric_limits<double>::max(), maxx = -numeric_limits<double>::max(), maxy = -numeric_limits<double>::max();
+	double minx = numeric_limits<double>::max(), miny = numeric_limits<double>::max(), maxx = -numeric_limits<double>::max(), maxy = -numeric_limits<double>::max();
 	long long id;
 	double lat, lon;
 	Position *pos;
@@ -122,9 +124,22 @@ int main() {
 			g.addVertex(positions[idv1]);
 			g.addVertex(positions[idv2]);
 			g.addEdge(positions[idv1], positions[idv2], positions[idv1].getDist(positions[idv2]));
-			if(streets[id].isTwoWay())
+			if (streets[id].isTwoWay())
 				g.addEdge(positions[idv2], positions[idv1], positions[idv1].getDist(positions[idv2]));
-			cout << 100.0 * id / 482568730 << " %" << endl;
+
+			progressBarOld = progressBarNew;
+			progressBarNew = 100 * id / 482568730;
+			if (progressBarNew != progressBarOld || progressBarOld == -1) {
+				system("cls");
+				cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n   \t\t\t\t\tPlease Wait...\n\t\t\t\t\t[";
+				for (int i = 0; i < progressBarNew/5; i++) {
+					cout << char(178);
+				}
+				for (int i = progressBarNew/5; i < 20; i++) {
+					cout << char(176);
+				}
+				cout << "] " << progressBarNew << "%\n";
+			}
 		}
 		g_file.close();
 	}
@@ -135,10 +150,10 @@ int main() {
 
 	for (size_t i = 0; i < g.getVertexSet().size(); i++)
 	{
-		if (g.getVertexSet()[i]->getIndegree() >= 2)
+		if (g.getVertexSet()[i]->getIndegree() > 2)
 			cout << g.getVertexSet()[i]->getIndegree() << endl;
 	}
 
-	
+
 	return 0;
 }
