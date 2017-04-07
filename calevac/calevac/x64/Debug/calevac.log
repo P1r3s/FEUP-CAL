@@ -1,2 +1,6 @@
-﻿  calevac.vcxproj -> D:\Temp\New folder\CAL_EVAC\calevac\x64\Debug\calevac.exe
-  calevac.vcxproj -> D:\Temp\New folder\CAL_EVAC\calevac\x64\Debug\calevac.pdb (Full PDB)
+﻿  main.cpp
+c:\users\miguel\desktop\new folder\cal_evac\calevac\calevac\main.cpp(137): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+c:\users\miguel\desktop\new folder\cal_evac\calevac\calevac\main.cpp(96): warning C4101: 'v2': unreferenced local variable
+c:\users\miguel\desktop\new folder\cal_evac\calevac\calevac\main.cpp(97): warning C4101: 'e': unreferenced local variable
+c:\users\miguel\desktop\new folder\cal_evac\calevac\calevac\main.cpp(96): warning C4101: 'v1': unreferenced local variable
+  calevac.vcxproj -> C:\Users\Miguel\Desktop\New folder\CAL_EVAC\calevac\x64\Debug\calevac.exe

@@ -13,12 +13,12 @@ using namespace std;
 int main() {
 	int progressBarOld = -1;
 	int progressBarNew = -1;
-	map<int, Position> positions;
-	double minx = numeric_limits<double>::max(), miny = numeric_limits<double>::max(), maxx = -numeric_limits<double>::max(), maxy = -numeric_limits<double>::max();
-	long long id;
+	map<unsigned long long, Position> positions;
+	//double minx = numeric_limits<double>::max(), miny = numeric_limits<double>::max(), maxx = -numeric_limits<double>::max(), maxy = -numeric_limits<double>::max();
+	unsigned long long id;
 	double lat, lon;
 	Position *pos;
-	string line;
+	string line, line2;
 	string section;
 	ifstream v_file("vertices.txt");
 	if (v_file.is_open()) {
@@ -32,10 +32,10 @@ int main() {
 			section.erase(section.begin() + section.find(';'), section.end());
 			lon = stod(section);
 
-			if (lon < minx)
+			/*if (lon < minx)
 				minx = lon;
 			if (lon > maxx)
-				maxx = lon;
+				maxx = lon;*/
 
 			section = line;
 			section.erase(section.begin(), section.begin() + section.find(';') + 1);
@@ -43,26 +43,22 @@ int main() {
 			section.erase(section.begin() + section.find(';'), section.end());
 			lat = stod(section);
 
-			if (lat < miny)
+			/*if (lat < miny)
 				miny = lat;
 			if (lat > maxy)
-				maxy = lat;
+				maxy = lat;*/
 
 			pos = new Position(lon, lat);
-			positions.insert(pair<int, Position>(id, *pos));
+			positions.insert(pair<unsigned long long, Position>(id, *pos));
 
-			//cout << id << '\t' << vertices[id].getInfo().getLatDeg() << endl;
-			//cin.get();
 		}
 		v_file.close();
 	}
 	else
 		cout << "Unable to open vertex file";
 
-	cout << minx << '\t' << maxx << '\t' << miny << '\t' << maxy << endl;
-	cin.get();
 	cout << "over" << endl;
-	map<int, Street> streets;
+	map<unsigned long long, Street> streets;
 	string name;
 	bool twoway;
 	Street *street;
@@ -88,7 +84,7 @@ int main() {
 				twoway = false;
 
 			street = new Street(name, twoway);
-			streets.insert(pair<int, Street>(id, *street));
+			streets.insert(pair<unsigned long long, Street>(id, *street));
 		}
 		e_file.close();
 	}
@@ -99,10 +95,10 @@ int main() {
 	Graph<Position> g;
 	Vertex<Position> *v1, *v2;
 	Edge<Position> *e;
-	long long idv1, idv2;
+	unsigned long long idv1, idv2;
 	ifstream g_file("graph.txt");
 	if (g_file.is_open()) {
-		while (getline(g_file, line)) {
+		while (getline(g_file, line) && getline(g_file, line2)) {
 			section = line;
 			section.erase(section.begin() + section.find(';'), section.end());
 			id = stoll(section);
@@ -118,15 +114,25 @@ int main() {
 			//section.erase(section.begin() + section.find(';'), section.end());
 			idv2 = stoll(section);
 
+
 			/*v1 = new Vertex<Position>(positions[idv1]);
 			v2 = new Vertex<Position>(positions[idv2]);
 			e = new Edge<Position>(v2, 1, streets[id].getName(), streets[id].isTwoWay());*/
-			g.addVertex(positions[idv1]);
-			g.addVertex(positions[idv2]);
-			g.addEdge(positions[idv1], positions[idv2], positions[idv1].getDist(positions[idv2]));
-			if (streets[id].isTwoWay())
-				g.addEdge(positions[idv2], positions[idv1], positions[idv1].getDist(positions[idv2]));
 
+			if (positions.count(idv1)) {
+				g.addVertex(positions[idv1]);
+			}
+
+			if (positions.count(idv2)) {
+				g.addVertex(positions[idv2]);
+			}
+
+			if (positions.count(idv1) && positions.count(idv2)) {
+				g.addEdge(positions[idv1], positions[idv2], positions[idv1].getDist(positions[idv2]));
+				if (streets[id].isTwoWay())
+					g.addEdge(positions[idv2], positions[idv1], positions[idv1].getDist(positions[idv2]));
+			}
+				
 			progressBarOld = progressBarNew;
 			progressBarNew = 100 * id / 483715765;
 			if (progressBarNew != progressBarOld || progressBarOld == -1) {
@@ -152,27 +158,6 @@ int main() {
 		cout << "Unable to open graph file";
 
 	cout << "over" << endl;
-
-	ofstream vout("vout.txt");
-	vector<Vertex<Position> *> rejectedvertices;
-
-
-	for (size_t i = 0; i < g.getVertexSet().size(); i++)
-	{
-		long long id;
-		Position posr(g.getVertexSet()[i]->getInfo().getLatDeg(), g.getVertexSet()[i]->getInfo().getLonDeg());
-		if (g.getVertexSet()[i]->getIndegree() > 1) {
-			for (auto &it : positions) {
-				if (new Position(g.getVertexSet()[i]->getInfo().getLatDeg(), g.getVertexSet()[i]->getInfo().getLonDeg()) == &(it.second)) {
-					id = it.first;
-				}
-			}
-			vout << id << ';' << positions[id].getLatDeg() << ';' << positions[id].getLonDeg() << ';' << endl;
-		}
-		else
-			g.removeVertex(posr);
-	}
-
 
 	return 0;
 }
