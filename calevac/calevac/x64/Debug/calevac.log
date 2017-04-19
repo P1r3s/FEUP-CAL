@@ -1,6 +1,23 @@
 ﻿  main.cpp
-c:\users\miguel\desktop\new folder\cal_evac\calevac\calevac\main.cpp(137): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
-c:\users\miguel\desktop\new folder\cal_evac\calevac\calevac\main.cpp(96): warning C4101: 'v2': unreferenced local variable
-c:\users\miguel\desktop\new folder\cal_evac\calevac\calevac\main.cpp(97): warning C4101: 'e': unreferenced local variable
-c:\users\miguel\desktop\new folder\cal_evac\calevac\calevac\main.cpp(96): warning C4101: 'v1': unreferenced local variable
-  calevac.vcxproj -> C:\Users\Miguel\Desktop\New folder\CAL_EVAC\calevac\x64\Debug\calevac.exe
+d:\temp\cal_evac\calevac\calevac\main.cpp(140): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+d:\temp\cal_evac\calevac\calevac\main.cpp(99): warning C4101: 'v2': unreferenced local variable
+d:\temp\cal_evac\calevac\calevac\main.cpp(100): warning C4101: 'e': unreferenced local variable
+d:\temp\cal_evac\calevac\calevac\main.cpp(99): warning C4101: 'v1': unreferenced local variable
+d:\temp\cal_evac\calevac\calevac\graph.h(99): warning C4244: 'return': conversion from 'const double' to 'int', possible loss of data
+  d:\temp\cal_evac\calevac\calevac\graph.h(98): note: while compiling class template member function 'int Vertex<T>::getDist(void) const'
+          with
+          [
+              T=Position
+          ]
+  d:\temp\cal_evac\calevac\calevac\main.cpp(212): note: see reference to function template instantiation 'int Vertex<T>::getDist(void) const' being compiled
+          with
+          [
+              T=Position
+          ]
+  d:\temp\cal_evac\calevac\calevac\main.cpp(212): note: see reference to class template instantiation 'Vertex<T>' being compiled
+          with
+          [
+              T=Position
+          ]
+  calevac.vcxproj -> D:\Temp\CAL_EVAC\calevac\x64\Debug\calevac.exe
+  calevac.vcxproj -> D:\Temp\CAL_EVAC\calevac\x64\Debug\calevac.pdb (Full PDB)

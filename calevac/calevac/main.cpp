@@ -3,7 +3,8 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <cstdlib>
+#include <sstream>
+#include <stdlib.h>
 #include "Graph.h"
 #include "Position.h"
 #include "Street.h"
@@ -13,8 +14,10 @@ using namespace std;
 int main() {
 	int progressBarOld = -1;
 	int progressBarNew = -1;
+	double userLatO = 0, userLongO = 0, userLatD = 0, userLongD = 0;
+	Position *userO, *userD;
 	map<unsigned long long, Position> positions;
-	//double minx = numeric_limits<double>::max(), miny = numeric_limits<double>::max(), maxx = -numeric_limits<double>::max(), maxy = -numeric_limits<double>::max();
+	double minx = numeric_limits<double>::max(), miny = numeric_limits<double>::max(), maxx = -numeric_limits<double>::max(), maxy = -numeric_limits<double>::max();
 	unsigned long long id;
 	double lat, lon;
 	Position *pos;
@@ -32,10 +35,10 @@ int main() {
 			section.erase(section.begin() + section.find(';'), section.end());
 			lon = stod(section);
 
-			/*if (lon < minx)
+			if (lon < minx)
 				minx = lon;
 			if (lon > maxx)
-				maxx = lon;*/
+				maxx = lon;
 
 			section = line;
 			section.erase(section.begin(), section.begin() + section.find(';') + 1);
@@ -43,10 +46,10 @@ int main() {
 			section.erase(section.begin() + section.find(';'), section.end());
 			lat = stod(section);
 
-			/*if (lat < miny)
+			if (lat < miny)
 				miny = lat;
 			if (lat > maxy)
-				maxy = lat;*/
+				maxy = lat;
 
 			pos = new Position(lon, lat);
 			positions.insert(pair<unsigned long long, Position>(id, *pos));
@@ -98,7 +101,7 @@ int main() {
 	unsigned long long idv1, idv2;
 	ifstream g_file("graph.txt");
 	if (g_file.is_open()) {
-		while (getline(g_file, line) && getline(g_file, line2)) {
+		while (getline(g_file, line) && getline(g_file, line2) && progressBarNew < 10) {
 			section = line;
 			section.erase(section.begin() + section.find(';'), section.end());
 			id = stoll(section);
@@ -157,7 +160,60 @@ int main() {
 	else
 		cout << "Unable to open graph file";
 
-	cout << "over" << endl;
+	system("cls");
+
+	
+	cout << miny << ',' << maxy << ',' << minx << ',' << maxx << endl;
+	cout << "Utilizador - Por favor insira as coordenadas da origem\n";
+	while (userLatO < miny || userLatO > maxy || userLongO < minx || userLongO > maxx) {
+		cout << "Introduza a latitude: \n";
+		cin >> userLatO;
+		cout << "Introduza a longitude: \n";
+		cin >> userLongO;
+
+		cout << userLatO << ',' << userLongO << endl;
+	}
+
+
+	system("cls");
+
+	cout << "Por favor insira as coordenadas do destino\n";
+	while (userLatD < miny || userLatD > maxy || userLongD < minx || userLongD > maxx) {
+		cout << "Introduza a latitude: \n";
+
+		cin >> userLatD;
+
+		cout << "Introduza a longitude: \n";
+
+		cin >> userLongD;
+
+		system("cls");
+	}
+
+	userO = new Position(userLongO, userLatO);
+	userD = new Position(userLongD, userLatD);
+
+	if (g.getVertex(*userO) == NULL)
+		cout << "coordenadas de origem nao existem\n";
+	if (g.getVertex(*userD) == NULL)
+		cout << "coordenadas de destino nao existem\n";
+
+	g.dijkstraShortestPath(*userO);
+
+	vector<Vertex<Position>* > vs = g.getVertexSet();
+
+	/*stringstream ss;
+	for (unsigned int i = 0; i < vs.size(); i++) {
+		ss << vs[i]->getInfo() << "<-";
+		if (vs[i]->path != NULL)  ss << vs[i]->path->getInfo();
+		ss << "|";
+	}*/
+
+	cout << g.getVertex(*userD)->getDist() << endl;
+	cout << positions[25398450].getDist(positions[25398453]) << endl;
+	
+
+	
 
 	return 0;
 }
