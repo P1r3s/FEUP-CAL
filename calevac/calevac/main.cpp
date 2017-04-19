@@ -202,14 +202,15 @@ int main() {
 
 	vector<Vertex<Position>* > vs = g.getVertexSet();
 
-	/*stringstream ss;
+	stringstream ss;
 	for (unsigned int i = 0; i < vs.size(); i++) {
-		ss << vs[i]->getInfo() << "<-";
-		if (vs[i]->path != NULL)  ss << vs[i]->path->getInfo();
+		ss << vs[i]->getInfo().getLatDeg() << ',' << vs[i]->getInfo().getLonDeg() << "<-";
+		if (vs[i]->path != NULL)  ss << vs[i]->path->getInfo().getLatDeg() << ',' << vs[i]->path->getInfo().getLonDeg();
 		ss << "|";
-	}*/
+	}
 
 	cout << g.getVertex(*userD)->getDist() << endl;
+	cout << ss.str() << endl;
 	cout << positions[25398450].getDist(positions[25398453]) << endl;
 	
 
