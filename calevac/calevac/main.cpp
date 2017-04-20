@@ -101,7 +101,7 @@ int main() {
 	unsigned long long idv1, idv2;
 	ifstream g_file("graph.txt");
 	if (g_file.is_open()) {
-		while (getline(g_file, line) && getline(g_file, line2) && progressBarNew < 10) {
+		while (getline(g_file, line) && getline(g_file, line2)) {
 			section = line;
 			section.erase(section.begin() + section.find(';'), section.end());
 			id = stoll(section);
@@ -122,7 +122,7 @@ int main() {
 			v2 = new Vertex<Position>(positions[idv2]);
 			e = new Edge<Position>(v2, 1, streets[id].getName(), streets[id].isTwoWay());*/
 
-			if (positions.count(idv1)) {
+			/*if (positions.count(idv1)) {
 				g.addVertex(positions[idv1]);
 			}
 
@@ -134,7 +134,12 @@ int main() {
 				g.addEdge(positions[idv1], positions[idv2], positions[idv1].getDist(positions[idv2]));
 				if (streets[id].isTwoWay())
 					g.addEdge(positions[idv2], positions[idv1], positions[idv1].getDist(positions[idv2]));
-			}
+			}*/
+			g.addVertex(positions[idv1]);
+			g.addVertex(positions[idv2]);
+			g.addEdge(positions[idv1], positions[idv2], positions[idv1].getDist(positions[idv2]));
+			if (streets[id].isTwoWay())
+				g.addEdge(positions[idv2], positions[idv1], positions[idv1].getDist(positions[idv2]));
 				
 			progressBarOld = progressBarNew;
 			progressBarNew = 100 * id / 483715765;
@@ -165,6 +170,7 @@ int main() {
 	
 	cout << miny << ',' << maxy << ',' << minx << ',' << maxx << endl;
 	cout << "Utilizador - Por favor insira as coordenadas da origem\n";
+	/*
 	while (userLatO < miny || userLatO > maxy || userLongO < minx || userLongO > maxx) {
 		cout << "Introduza a latitude: \n";
 		cin >> userLatO;
@@ -180,38 +186,36 @@ int main() {
 	cout << "Por favor insira as coordenadas do destino\n";
 	while (userLatD < miny || userLatD > maxy || userLongD < minx || userLongD > maxx) {
 		cout << "Introduza a latitude: \n";
-
 		cin >> userLatD;
-
 		cout << "Introduza a longitude: \n";
-
 		cin >> userLongD;
-
 		system("cls");
 	}
 
 	userO = new Position(userLongO, userLatO);
-	userD = new Position(userLongD, userLatD);
+	userD = new Position(userLongD, userLatD);*/
+
+	userO = new Position(41.17198, -8.594533);
+	userD = new Position(41.17221, -8.594659);
 
 	if (g.getVertex(*userO) == NULL)
 		cout << "coordenadas de origem nao existem\n";
 	if (g.getVertex(*userD) == NULL)
 		cout << "coordenadas de destino nao existem\n";
 
-	g.dijkstraShortestPath(*userO);
 
-	vector<Vertex<Position>* > vs = g.getVertexSet();
+	g.floydWarshallShortestPath();
 
 	stringstream ss;
-	for (unsigned int i = 0; i < vs.size(); i++) {
-		ss << vs[i]->getInfo().getLatDeg() << ',' << vs[i]->getInfo().getLonDeg() << "<-";
-		if (vs[i]->path != NULL)  ss << vs[i]->path->getInfo().getLatDeg() << ',' << vs[i]->path->getInfo().getLonDeg();
-		ss << "|";
+
+	vector<Position> path = g.getfloydWarshallPath(*userO, *userD);
+	ss.str("");
+	for (unsigned int i = 0; i < path.size(); i++) {
+		ss << path[i].getLatDeg() << ',' << path[i].getLonDeg() << " ";
 	}
 
 	cout << g.getVertex(*userD)->getDist() << endl;
 	cout << ss.str() << endl;
-	cout << positions[25398450].getDist(positions[25398453]) << endl;
 	
 
 	

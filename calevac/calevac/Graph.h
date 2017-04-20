@@ -663,6 +663,7 @@ void Graph<T>::dijkstraShortestPath(const T &s) {
 			}
 		}
 	}
+	cout << 'm';
 }
 
 template<class T>
