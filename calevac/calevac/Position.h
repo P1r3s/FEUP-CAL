@@ -6,7 +6,10 @@ class Position
 	double lon;
 public:
 	Position() { lat = 0; lon = 0; };
-	Position(double latitude, double longitude);
+	Position(double latitude, double longitude) {
+		lat = latitude;
+		lon = longitude;
+	};
 	double getLatRad();
 	double getLonRad();
 	double getLatDeg() {
@@ -26,9 +29,3 @@ public:
 		//return sqrt(pow(6371000 * sin((3.1415926 * this->getLatDeg() - that.getLatDeg()) / 180), 2) + pow(6371000 * sin((3.1415926 * this->getLatDeg() - that.getLatDeg()) / 180), 2));
 	}
 };
-
-Position::Position(double latitude, double longitude)
-{
-	lat = latitude;
-	lon = longitude;
-}

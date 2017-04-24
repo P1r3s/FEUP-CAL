@@ -8,217 +8,99 @@
 #include "Graph.h"
 #include "Position.h"
 #include "Street.h"
+#include "fileparser.h"
+#include "menus.h"
 
 using namespace std;
 
 int main() {
-	int progressBarOld = -1;
-	int progressBarNew = -1;
-	double userLatO = 0, userLongO = 0, userLatD = 0, userLongD = 0;
-	Position *userO, *userD;
-	map<unsigned long long, Position> positions;
-	double minx = numeric_limits<double>::max(), miny = numeric_limits<double>::max(), maxx = -numeric_limits<double>::max(), maxy = -numeric_limits<double>::max();
-	unsigned long long id;
-	double lat, lon;
-	Position *pos;
-	string line, line2;
-	string section;
-	ifstream v_file("vertices.txt");
-	if (v_file.is_open()) {
-		while (getline(v_file, line)) {
-			section = line;
-			section.erase(section.begin() + section.find(';'), section.end());
-			id = stoll(section);
-
-			section = line;
-			section.erase(section.begin(), section.begin() + section.find(';') + 1);
-			section.erase(section.begin() + section.find(';'), section.end());
-			lon = stod(section);
-
-			if (lon < minx)
-				minx = lon;
-			if (lon > maxx)
-				maxx = lon;
-
-			section = line;
-			section.erase(section.begin(), section.begin() + section.find(';') + 1);
-			section.erase(section.begin(), section.begin() + section.find(';') + 1);
-			section.erase(section.begin() + section.find(';'), section.end());
-			lat = stod(section);
-
-			if (lat < miny)
-				miny = lat;
-			if (lat > maxy)
-				maxy = lat;
-
-			pos = new Position(lon, lat);
-			positions.insert(pair<unsigned long long, Position>(id, *pos));
-
-		}
-		v_file.close();
-	}
-	else
-		cout << "Unable to open vertex file";
-
-	cout << "over" << endl;
-	map<unsigned long long, Street> streets;
-	string name;
-	bool twoway;
-	Street *street;
-	ifstream e_file("edges.txt");
-	if (e_file.is_open()) {
-		while (getline(e_file, line)) {
-			section = line;
-			section.erase(section.begin() + section.find(';'), section.end());
-			id = stoll(section);
-
-			section = line;
-			section.erase(section.begin(), section.begin() + section.find(';') + 1);
-			section.erase(section.begin() + section.find(';'), section.end());
-			name = section;
-
-			section = line;
-			section.erase(section.begin(), section.begin() + section.find(';') + 1);
-			section.erase(section.begin(), section.begin() + section.find(';') + 1);
-			//section.erase(section.begin() + section.find(';'), section.end());
-			if (section == "True")
-				twoway = true;
-			else
-				twoway = false;
-
-			street = new Street(name, twoway);
-			streets.insert(pair<unsigned long long, Street>(id, *street));
-		}
-		e_file.close();
-	}
-	else
-		cout << "Unable to open edge file";
-
-	cout << "over" << endl;
+	bool filesRead = false, coordsOK = false;
+	double minx, miny, maxx, maxy;
+	double userLatO = 0, userLongO = 0, userLatD = 0, userLongD = 0, accidentLat = 0, accidentLong = 0;
+	Position *userO, *userD, *accident;
 	Graph<Position> g;
-	Vertex<Position> *v1, *v2;
-	Edge<Position> *e;
-	unsigned long long idv1, idv2;
-	ifstream g_file("graph.txt");
-	if (g_file.is_open()) {
-		while (getline(g_file, line) && getline(g_file, line2)) {
-			section = line;
-			section.erase(section.begin() + section.find(';'), section.end());
-			id = stoll(section);
 
-			section = line;
-			section.erase(section.begin(), section.begin() + section.find(';') + 1);
-			section.erase(section.begin() + section.find(';'), section.end());
-			idv1 = stoll(section);
+	int menu = 0;
+	while (menu != 5) {
+		menu = getMenu("Read files,Insert origin and destination,Add accident,Calculate path,Exit");
+		switch (menu) {
+		case 1:
+			readfiles(g, minx, miny, maxx, maxy);
+			filesRead = true;
+			break;
+		case 2:
+			if (filesRead) {
+				cout << miny << ',' << maxy << ',' << minx << ',' << maxx << endl;
+				cout << "Por favor insira as coordenadas da origem\n";
+				while (userLatO < miny || userLatO > maxy || userLongO < minx || userLongO > maxx) {
+					cout << "Introduza a latitude: \n";
+					cin >> userLatO;
+					cout << "Introduza a longitude: \n";
+					cin >> userLongO;
+				}
 
-			section = line;
-			section.erase(section.begin(), section.begin() + section.find(';') + 1);
-			section.erase(section.begin(), section.begin() + section.find(';') + 1);
-			//section.erase(section.begin() + section.find(';'), section.end());
-			idv2 = stoll(section);
-
-
-			/*v1 = new Vertex<Position>(positions[idv1]);
-			v2 = new Vertex<Position>(positions[idv2]);
-			e = new Edge<Position>(v2, 1, streets[id].getName(), streets[id].isTwoWay());*/
-
-			/*if (positions.count(idv1)) {
-				g.addVertex(positions[idv1]);
-			}
-
-			if (positions.count(idv2)) {
-				g.addVertex(positions[idv2]);
-			}
-
-			if (positions.count(idv1) && positions.count(idv2)) {
-				g.addEdge(positions[idv1], positions[idv2], positions[idv1].getDist(positions[idv2]));
-				if (streets[id].isTwoWay())
-					g.addEdge(positions[idv2], positions[idv1], positions[idv1].getDist(positions[idv2]));
-			}*/
-			g.addVertex(positions[idv1]);
-			g.addVertex(positions[idv2]);
-			g.addEdge(positions[idv1], positions[idv2], positions[idv1].getDist(positions[idv2]));
-			if (streets[id].isTwoWay())
-				g.addEdge(positions[idv2], positions[idv1], positions[idv1].getDist(positions[idv2]));
-				
-			progressBarOld = progressBarNew;
-			progressBarNew = 100 * id / 483715765;
-			if (progressBarNew != progressBarOld || progressBarOld == -1) {
 				system("cls");
-				cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n   \t\t\t\t\tPlease Wait";
-				for (int i = 1; i < progressBarNew % 4 + 1; i++)
-				{
-					cout << '.';
+
+				cout << "Por favor insira as coordenadas do destino\n";
+				while (userLatD < miny || userLatD > maxy || userLongD < minx || userLongD > maxx) {
+					cout << "Introduza a latitude: \n";
+					cin >> userLatD;
+					cout << "Introduza a longitude: \n";
+					cin >> userLongD;
+					system("cls");
 				}
-				cout << "\n\t\t\t\t\t[";
-				for (int i = 0; i < progressBarNew / 5; i++) {
-					cout << char(178);
-				}
-				for (int i = progressBarNew / 5; i < 20; i++) {
-					cout << char(176);
-				}
-				cout << "] " << progressBarNew << "%\n";
+
+				userO = new Position(userLongO, userLatO);
+				userD = new Position(userLongD, userLatD);
+
+				//userO = new Position(41.17198, -8.594533);
+				//userD = new Position(41.17221, -8.594659);
+
+				if (g.getVertex(*userO) == NULL)
+					cout << "coordenadas de origem nao existem\n";
+				if (g.getVertex(*userD) == NULL)
+					cout << "coordenadas de destino nao existem\n";
+				if (g.getVertex(*userO) != NULL && g.getVertex(*userD) != NULL)
+					coordsOK = true;
 			}
+			else
+				cout << "must read files first!\n";
+			system("pause");
+			break;
+		case 3:
+			if (filesRead) {
+				cout << "Por favor insira as coordenadas do acidente\n";
+				while (accidentLat < miny || accidentLat > maxy || accidentLong < minx || accidentLong > maxx) {
+					cout << "Introduza a latitude: \n";
+					cin >> accidentLat;
+					cout << "Introduza a longitude: \n";
+					cin >> accidentLong;
+					system("cls");
+				}
+				accident = new Position(accidentLong, accidentLat);
+
+				if (g.getVertex(*accident) == NULL)
+					cout << "coordenadas do acidente nao existem\n";
+				else
+					g.removeVertex(*accident);
+			}
+			else
+				cout << "must read files first!\n";
+			system("pause");
+			break;
+		case 4:
+			if (filesRead && coordsOK) {
+				g.dijkstraShortestPath(*userO);
+				while (true) {
+					cout << g.getVertex(*userD)->path->getInfo().getLatDeg() << ',' << g.getVertex(*userD)->path->getInfo().getLonDeg() << endl;
+					*userD = g.getVertex(*userD)->path->getInfo();
+				}
+			}
+			else
+				cout << "must read files and add origin and destination first!\n";
+			system("pause");
+			break;
 		}
-		g_file.close();
 	}
-	else
-		cout << "Unable to open graph file";
-
-	system("cls");
-
-	
-	cout << miny << ',' << maxy << ',' << minx << ',' << maxx << endl;
-	cout << "Utilizador - Por favor insira as coordenadas da origem\n";
-	/*
-	while (userLatO < miny || userLatO > maxy || userLongO < minx || userLongO > maxx) {
-		cout << "Introduza a latitude: \n";
-		cin >> userLatO;
-		cout << "Introduza a longitude: \n";
-		cin >> userLongO;
-
-		cout << userLatO << ',' << userLongO << endl;
-	}
-
-
-	system("cls");
-
-	cout << "Por favor insira as coordenadas do destino\n";
-	while (userLatD < miny || userLatD > maxy || userLongD < minx || userLongD > maxx) {
-		cout << "Introduza a latitude: \n";
-		cin >> userLatD;
-		cout << "Introduza a longitude: \n";
-		cin >> userLongD;
-		system("cls");
-	}
-
-	userO = new Position(userLongO, userLatO);
-	userD = new Position(userLongD, userLatD);*/
-
-	userO = new Position(41.17198, -8.594533);
-	userD = new Position(41.17221, -8.594659);
-
-	if (g.getVertex(*userO) == NULL)
-		cout << "coordenadas de origem nao existem\n";
-	if (g.getVertex(*userD) == NULL)
-		cout << "coordenadas de destino nao existem\n";
-
-
-	g.floydWarshallShortestPath();
-
-	stringstream ss;
-
-	vector<Position> path = g.getfloydWarshallPath(*userO, *userD);
-	ss.str("");
-	for (unsigned int i = 0; i < path.size(); i++) {
-		ss << path[i].getLatDeg() << ',' << path[i].getLonDeg() << " ";
-	}
-
-	cout << g.getVertex(*userD)->getDist() << endl;
-	cout << ss.str() << endl;
-	
-
-	
-
 	return 0;
 }

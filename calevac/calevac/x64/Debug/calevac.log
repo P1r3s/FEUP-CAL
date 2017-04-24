@@ -1,37 +1,40 @@
 ﻿  main.cpp
-d:\temp\cal_evac\calevac\calevac\main.cpp(145): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
-d:\temp\cal_evac\calevac\calevac\main.cpp(99): warning C4101: 'v2': unreferenced local variable
-d:\temp\cal_evac\calevac\calevac\main.cpp(100): warning C4101: 'e': unreferenced local variable
-d:\temp\cal_evac\calevac\calevac\main.cpp(99): warning C4101: 'v1': unreferenced local variable
-d:\temp\cal_evac\calevac\calevac\graph.h(99): warning C4244: 'return': conversion from 'const double' to 'int', possible loss of data
-  d:\temp\cal_evac\calevac\calevac\graph.h(98): note: while compiling class template member function 'int Vertex<T>::getDist(void) const'
+d:\temp\new folder\cal_evac\calevac\calevac\graph.h(99): warning C4244: 'return': conversion from 'const double' to 'int', possible loss of data
+  d:\temp\new folder\cal_evac\calevac\calevac\graph.h(98): note: while compiling class template member function 'int Vertex<T>::getDist(void) const'
           with
           [
               T=Position
           ]
-  d:\temp\cal_evac\calevac\calevac\main.cpp(217): note: see reference to function template instantiation 'int Vertex<T>::getDist(void) const' being compiled
+  d:\temp\new folder\cal_evac\calevac\calevac\graph.h(58): note: see reference to function template instantiation 'int Vertex<T>::getDist(void) const' being compiled
           with
           [
               T=Position
           ]
-  d:\temp\cal_evac\calevac\calevac\main.cpp(217): note: see reference to class template instantiation 'Vertex<T>' being compiled
+  d:\temp\new folder\cal_evac\calevac\calevac\graph.h(57): note: while compiling class template member function 'bool vertex_greater_than<T>::operator ()(Vertex<T> *,Vertex<T> *) const'
           with
           [
               T=Position
           ]
-d:\temp\cal_evac\calevac\calevac\graph.h(678): warning C4244: 'return': conversion from 'double' to 'int', possible loss of data
-  d:\temp\cal_evac\calevac\calevac\graph.h(671): note: while compiling class template member function 'int Graph<Position>::edgeCost(int,int)'
-  d:\temp\cal_evac\calevac\calevac\graph.h(724): note: see reference to function template instantiation 'int Graph<Position>::edgeCost(int,int)' being compiled
-  d:\temp\cal_evac\calevac\calevac\graph.h(209): note: while compiling class template member function 'bool Graph<Position>::addVertex(const T &)'
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility(896): note: see reference to function template instantiation 'bool vertex_greater_than<T>::operator ()(Vertex<T> *,Vertex<T> *) const' being compiled
           with
           [
               T=Position
           ]
-  d:\temp\cal_evac\calevac\calevac\main.cpp(138): note: see reference to function template instantiation 'bool Graph<Position>::addVertex(const T &)' being compiled
+  d:\temp\new folder\cal_evac\calevac\calevac\graph.h(662): note: see reference to class template instantiation 'vertex_greater_than<T>' being compiled
           with
           [
               T=Position
           ]
-  d:\temp\cal_evac\calevac\calevac\main.cpp(98): note: see reference to class template instantiation 'Graph<Position>' being compiled
-  calevac.vcxproj -> D:\Temp\CAL_EVAC\calevac\x64\Debug\calevac.exe
-  calevac.vcxproj -> D:\Temp\CAL_EVAC\calevac\x64\Debug\calevac.pdb (Full PDB)
+  d:\temp\new folder\cal_evac\calevac\calevac\graph.h(624): note: while compiling class template member function 'void Graph<Position>::dijkstraShortestPath(const T &)'
+          with
+          [
+              T=Position
+          ]
+  d:\temp\new folder\cal_evac\calevac\calevac\main.cpp(93): note: see reference to function template instantiation 'void Graph<Position>::dijkstraShortestPath(const T &)' being compiled
+          with
+          [
+              T=Position
+          ]
+  d:\temp\new folder\cal_evac\calevac\calevac\main.cpp(21): note: see reference to class template instantiation 'Graph<Position>' being compiled
+  calevac.vcxproj -> D:\Temp\New folder\CAL_EVAC\calevac\x64\Debug\calevac.exe
+  calevac.vcxproj -> D:\Temp\New folder\CAL_EVAC\calevac\x64\Debug\calevac.pdb (Full PDB)

@@ -10,7 +10,10 @@ class Street
 	bool twoway;
 public:
 	Street() { name = ""; twoway = true; };
-	Street(string n, bool t);
+	Street(string n, bool t){
+		name = n;
+		twoway = t;
+	};
 	string getName() {
 		return name;
 	};
@@ -18,9 +21,3 @@ public:
 		return twoway;
 	};
 };
-
-Street::Street(string n, bool t)
-{
-	name = n;
-	twoway = t;
-}
