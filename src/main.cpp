@@ -121,12 +121,13 @@ int main() {
 				while (!vertexSet.empty()) {
 					id++;
 					//gv->addNode(id, id+1, id+2);
-					nodeX = 1000 * (vertexSet[0]->getInfo().getLonDeg() - miny) / (maxy - miny);
+					nodeX = 1000 * (vertexSet[0]->getInfo().getLonDeg() - miny) / (maxx - minx);
 					nodeY = 1000 * (vertexSet[0]->getInfo().getLatDeg() - minx) / (maxx - minx);
-					/*cout << vertexSet[0]->getInfo().getLonDeg() << ',' << miny << ',' << maxy << endl;
-					cout << vertexSet[0]->getInfo().getLatDeg() << ',' << minx << ',' << maxx << endl;
-					cout << nodeX << ',' << nodeY << endl;*/
-					gv->addNode(id, nodeX, nodeY);
+					gv->addNode(id, nodeX, -nodeY);
+					nodeX = 1000 * (vertexSet[0]->path->getInfo().getLonDeg() - miny) / (maxx - minx);
+					nodeY = 1000 * (vertexSet[0]->path->getInfo().getLatDeg() - minx) / (maxx - minx);
+					gv->addNode(id, nodeX, -nodeY);
+					gv->addEdge(id, id, id+10000, EdgeType::UNDIRECTED);
 					vertexSet.erase(vertexSet.begin());
 					gv->rearrange();
 					//system("pause");
